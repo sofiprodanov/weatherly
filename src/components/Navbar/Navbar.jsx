@@ -1,54 +1,28 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./Navbar.module.css";
 import { FiSearch } from "react-icons/fi";
 import { useWeather } from "../../context/WeatherContext";
-import { useSearchCities, useCities } from "../../hooks/useWeather"; // ✅ NUEVO IMPORT
+import { useSearchInput } from "../../hooks/useSearchInput";
 
 const Navbar = () => {
   const { changeCity, isLoading: weatherLoading } = useWeather();
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const searchRef = useRef(null);
-
-  // Búsqueda dinámica
+  
   const {
-    data: searchResults = [],
-    isLoading: searchLoading
-  } = useSearchCities(searchTerm);
-
-  // Ciudades populares para mostrar al inicio
-  const { data: popularCities = [] } = useCities();
-
-  // Determinar qué ciudades mostrar
-  const getCitiesToShow = () => {
-    if (searchTerm.length > 0) {
-      // Si está buscando, mostrar resultados de la API
-      return searchResults;
-    } else {
-      // Si no hay búsqueda, mostrar ciudades populares
-      return popularCities;
-    }
-  };
-
-  const handleCitySelect = (city) => {
-    changeCity(city);
-    setSearchTerm("");
-    setShowSuggestions(false);
-  };
-
-  const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
-    setShowSuggestions(true);
-  };
-
-  const handleInputFocus = () => {
-    setShowSuggestions(true);
-  };
+    searchTerm,
+    showSuggestions,
+    inputRef,
+    isLoading: searchLoading,
+    citiesToShow,
+    handleCitySelect,
+    handleInputChange,
+    handleInputFocus,
+    handleInputBlur,
+    setShowSuggestions
+  } = useSearchInput(changeCity);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
         setShowSuggestions(false);
       }
     };
@@ -57,22 +31,23 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [inputRef, setShowSuggestions]);
 
-  const citiesToShow = getCitiesToShow();
   const isLoading = searchLoading || weatherLoading;
 
   return (
     <header className={styles.navbar}>
-      <div className={styles.searchContainer} ref={searchRef}>
+      <div className={styles.searchContainer} ref={inputRef}>
         <FiSearch className={styles.icon} />
         <input
+          ref={inputRef}
           type="text"
           placeholder={isLoading ? "Buscando..." : "Buscar ciudad..."}
           className={styles.input}
           value={searchTerm}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           disabled={isLoading}
         />
 
