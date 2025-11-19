@@ -73,7 +73,7 @@
 }
 
 .favoriteBtn:hover:not(:disabled) {
-  transform: scale(1.1); /* ← Más sutil */
+  transform: scale(1.1);
   text-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
   color: #eab308;
 }

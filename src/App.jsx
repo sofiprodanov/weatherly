@@ -4,7 +4,6 @@ import { WeatherProvider } from "./context/WeatherContext";
 import "./styles/globals.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-
 /**
  * - Renderiza el Layout y dentro de él la página principal (Home).
  */

@@ -11,16 +11,16 @@ const Navbar = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef(null);
 
-  // ✅ NUEVO: Usar búsqueda dinámica
+  // Búsqueda dinámica
   const {
     data: searchResults = [],
     isLoading: searchLoading
   } = useSearchCities(searchTerm);
 
-  // ✅ NUEVO: Ciudades populares para mostrar al inicio
+  // Ciudades populares para mostrar al inicio
   const { data: popularCities = [] } = useCities();
 
-  // ✅ NUEVO: Determinar qué ciudades mostrar
+  // Determinar qué ciudades mostrar
   const getCitiesToShow = () => {
     if (searchTerm.length > 0) {
       // Si está buscando, mostrar resultados de la API
