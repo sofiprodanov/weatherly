@@ -67,13 +67,6 @@
   letter-spacing: 0.5px;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  flex: 1;
-}
-
 /* ===== DISEÑO RESPONSIVO  ===== */
 
 /* Tablet */

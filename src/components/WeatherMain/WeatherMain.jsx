@@ -18,11 +18,9 @@ const WeatherMain = () => {
       cityName: selectedCity.city,
       preferences: { isFavorite: !isFavorite }
     }, {
-      onSuccess: (data) => {
-        console.log("✅ useMutation éxito:", data);
+      onSuccess: () => {
       },
       onError: (error) => {
-        console.error("❌ useMutation error:", error);
         setIsFavorite(isFavorite);
         alert("Error al guardar favorito");
       }

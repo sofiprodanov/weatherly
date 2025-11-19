@@ -1,203 +1,181 @@
-// Servicio de clima - intermediario entre componentes y datos
+// Servicio de clima - OpenWeatherMap + lista predefinida
+const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY || process.env.REACT_APP_OPENWEATHER_API_KEY;
+const BASE_URL = 'https://api.openweathermap.org/data/2.5';
+const GEOCODING_URL = 'https://api.openweathermap.org/geo/1.0';
+
 export const weatherService = {
-  // Simular delay de API (para testing)
   delay: (ms) => new Promise(resolve => setTimeout(resolve, ms)),
 
-  // Obtener datos de clima de una ciudad
+  // BUSCAR CIUDADES - LISTA PREDEFINIDA
+  async searchCities(searchTerm) {
+    if (!searchTerm || searchTerm.length < 2) return [];
+    
+    const argentinianCities = [
+      "Buenos Aires", "Resistencia", "Córdoba", "Mendoza", "Rosario",
+      "La Plata", "Mar del Plata", "Salta", "Santa Fe", "San Juan",
+      "San Luis", "Neuquén", "Formosa", "Corrientes", "Posadas",
+      "Tucumán", "Bahía Blanca", "Paraná", "Santiago del Estero", "Ushuaia",
+      "San Miguel de Tucumán", "Viedma", "Rawson", "Río Gallegos", "Reconquista",
+      "Río Cuarto", "Comodoro Rivadavia", "San Salvador de Jujuy", "San Rafael", "San Nicolás"
+    ];
+    
+    const results = argentinianCities.filter(city =>
+      city.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    return results.slice(0, 5);
+  },
+
+  // OBTENER DATOS DEL CLIMA (API)
   async getWeatherData(cityName) {
-    await this.delay(800); // Simular carga de API
+    try {
+      if (!API_KEY) {
+        throw new Error('API Key no configurada. Revisa tu archivo .env');
+      }
 
-    // DATOS MOCK TEMPORALES - luego los reemplazamos con API real
-    const mockData = {
-      "Resistencia": {
-        id: 1,
-        city: "Resistencia",
-        province: "Chaco",
-        temperature: 33,
-        condition: "Soleado y caluroso",
-        icon: "sunny",
-        air: {
-          feels_like: 36,
-          humidity: 50,
-          wind_speed: 10,
-          rain_probability: 5,
-        },
-        hourlyForecast: [
-          { hour: "09:00", temperature: 28, icon: "sunny" },
-          { hour: "11:00", temperature: 30, icon: "sunny" },
-          { hour: "13:00", temperature: 33, icon: "sunny" },
-          { hour: "15:00", temperature: 35, icon: "sunny" },
-          { hour: "17:00", temperature: 34, icon: "cloudy" },
-          { hour: "19:00", temperature: 32, icon: "cloudy" },
-          { hour: "21:00", temperature: 29, icon: "cloudy" },
-          { hour: "23:00", temperature: 27, icon: "cloudy" },
-        ],
-        weeklyForecast: [
-          { day: "Lun", max: 34, min: 22, icon: "sunny" },
-          { day: "Mar", max: 33, min: 23, icon: "sunny" },
-          { day: "Mié", max: 31, min: 21, icon: "cloudy" },
-          { day: "Jue", max: 32, min: 20, icon: "sunny" },
-          { day: "Vie", max: 30, min: 19, icon: "rain" },
-          { day: "Sáb", max: 29, min: 18, icon: "cloudy" },
-          { day: "Dom", max: 32, min: 21, icon: "sunny" },
-        ],
-      },
-      "Buenos Aires": {
-        id: 2,
-        city: "Buenos Aires",
-        province: "Buenos Aires",
-        temperature: 25,
-        condition: "Lluvioso con intervalos de sol",
-        icon: "rain",
-        air: {
-          feels_like: 26,
-          humidity: 80,
-          wind_speed: 18,
-          rain_probability: 70,
-        },
-        hourlyForecast: [
-          { hour: "09:00", temperature: 22, icon: "rain" },
-          { hour: "11:00", temperature: 23, icon: "rain" },
-          { hour: "13:00", temperature: 24, icon: "rain" },
-          { hour: "15:00", temperature: 25, icon: "cloudy" },
-          { hour: "17:00", temperature: 24, icon: "cloudy" },
-          { hour: "19:00", temperature: 23, icon: "rain" },
-          { hour: "21:00", temperature: 22, icon: "cloudy" },
-          { hour: "23:00", temperature: 21, icon: "cloudy" },
-        ],
-        weeklyForecast: [
-          { day: "Lun", max: 26, min: 19, icon: "rain" },
-          { day: "Mar", max: 27, min: 20, icon: "cloudy" },
-          { day: "Mié", max: 25, min: 18, icon: "rain" },
-          { day: "Jue", max: 26, min: 19, icon: "cloudy" },
-          { day: "Vie", max: 27, min: 21, icon: "sunny" },
-          { day: "Sáb", max: 28, min: 22, icon: "sunny" },
-          { day: "Dom", max: 30, min: 23, icon: "sunny" },
-        ],
-      },
-      "Córdoba": {
-        id: 3,
-        city: "Córdoba",
-        province: "Córdoba",
-        temperature: 14,
-        condition: "Nublado y fresco",
-        icon: "cloudy",
-        air: {
-          feels_like: 12,
-          humidity: 68,
-          wind_speed: 14,
-          rain_probability: 15,
-        },
-        hourlyForecast: [
-          { hour: "09:00", temperature: 13, icon: "cloudy" },
-          { hour: "11:00", temperature: 14, icon: "cloudy" },
-          { hour: "13:00", temperature: 15, icon: "cloudy" },
-          { hour: "15:00", temperature: 16, icon: "cloudy" },
-          { hour: "17:00", temperature: 15, icon: "cloudy" },
-          { hour: "19:00", temperature: 14, icon: "cloudy" },
-          { hour: "21:00", temperature: 13, icon: "cloudy" },
-          { hour: "23:00", temperature: 12, icon: "cloudy" },
-        ],
-        weeklyForecast: [
-          { day: "Lun", max: 17, min: 8, icon: "cloudy" },
-          { day: "Mar", max: 18, min: 9, icon: "cloudy" },
-          { day: "Mié", max: 19, min: 8, icon: "cloudy" },
-          { day: "Jue", max: 20, min: 10, icon: "sunny" },
-          { day: "Vie", max: 22, min: 12, icon: "sunny" },
-          { day: "Sáb", max: 20, min: 11, icon: "cloudy" },
-          { day: "Dom", max: 19, min: 10, icon: "cloudy" },
-        ],
-      },
-      "Mendoza": {
-        id: 4,
-        city: "Mendoza",
-        province: "Mendoza",
-        temperature: 19,
-        condition: "Ventoso y parcialmente nublado",
-        icon: "windy",
-        air: {
-          feels_like: 17,
-          humidity: 60,
-          wind_speed: 38,
-          rain_probability: 5,
-        },
-        hourlyForecast: [
-          { hour: "09:00", temperature: 17, icon: "cloudy" },
-          { hour: "11:00", temperature: 18, icon: "windy" },
-          { hour: "13:00", temperature: 19, icon: "windy" },
-          { hour: "15:00", temperature: 21, icon: "windy" },
-          { hour: "17:00", temperature: 20, icon: "cloudy" },
-          { hour: "19:00", temperature: 18, icon: "cloudy" },
-          { hour: "21:00", temperature: 16, icon: "cloudy" },
-          { hour: "23:00", temperature: 15, icon: "cloudy" },
-        ],
-        weeklyForecast: [
-          { day: "Lun", max: 20, min: 10, icon: "windy" },
-          { day: "Mar", max: 21, min: 12, icon: "cloudy" },
-          { day: "Mié", max: 19, min: 9, icon: "windy" },
-          { day: "Jue", max: 17, min: 8, icon: "cloudy" },
-          { day: "Vie", max: 18, min: 7, icon: "cloudy" },
-          { day: "Sáb", max: 20, min: 9, icon: "windy" },
-          { day: "Dom", max: 22, min: 11, icon: "sunny" },
-        ],
-      },
-      "Ushuaia": {
-        id: 5,
-        city: "Ushuaia",
-        province: "Tierra del Fuego",
-        temperature: -3,
-        condition: "Nevando con ráfagas de viento",
-        icon: "snow",
-        air: {
-          feels_like: -7,
-          humidity: 90,
-          wind_speed: 42,
-          rain_probability: 60,
-        },
-        hourlyForecast: [
-          { hour: "09:00", temperature: -4, icon: "snow" },
-          { hour: "11:00", temperature: -4, icon: "snow" },
-          { hour: "13:00", temperature: -3, icon: "snow" },
-          { hour: "15:00", temperature: -2, icon: "snow" },
-          { hour: "17:00", temperature: -3, icon: "snow" },
-          { hour: "19:00", temperature: -4, icon: "snow" },
-          { hour: "21:00", temperature: -5, icon: "snow" },
-          { hour: "23:00", temperature: -6, icon: "snow" },
-        ],
-        weeklyForecast: [
-          { day: "Lun", max: -1, min: -6, icon: "snow" },
-          { day: "Mar", max: 0, min: -5, icon: "snow" },
-          { day: "Mié", max: -2, min: -7, icon: "snow" },
-          { day: "Jue", max: 1, min: -6, icon: "snow" },
-          { day: "Vie", max: 2, min: -5, icon: "snow" },
-          { day: "Sáb", max: 1, min: -6, icon: "snow" },
-          { day: "Dom", max: -1, min: -7, icon: "snow" },
-        ],
-      },
-    };
+      const cleanCityName = cityName.split(',')[0].trim();
 
-    // Validar que la ciudad existe
-    if (!mockData[cityName]) {
-      throw new Error(`Ciudad "${cityName}" no encontrada`);
+      const currentWeatherUrl = `${BASE_URL}/weather?q=${cleanCityName},AR&appid=${API_KEY}&units=metric&lang=es`;
+      const currentResponse = await fetch(currentWeatherUrl);
+      
+      if (!currentResponse.ok) {
+        throw new Error(`Ciudad "${cleanCityName}" no encontrada`);
+      }
+      
+      const currentData = await currentResponse.json();
+
+      const forecastUrl = `${BASE_URL}/forecast?q=${cleanCityName},AR&appid=${API_KEY}&units=metric&lang=es`;
+      const forecastResponse = await fetch(forecastUrl);
+      const forecastData = await forecastResponse.json();
+
+      return this.transformApiData(currentData, forecastData, cleanCityName);
+
+    } catch (error) {
+      throw error;
     }
-
-    return mockData[cityName];
   },
 
-  // Obtener lista de ciudades disponibles
-  async getCities() {
-    await this.delay(300); // Simular carga
-    return ["Resistencia", "Buenos Aires", "Córdoba", "Mendoza", "Ushuaia"];
+  // TRANSFORMAR DATOS
+  transformApiData(apiData, forecastData, cityName) {
+    const weatherCondition = this.mapWeatherCondition(apiData.weather[0].main);
+
+    return {
+      id: apiData.id,
+      city: cityName,
+      province: this.getProvinceFromCity(cityName),
+      temperature: Math.round(apiData.main.temp),
+      condition: weatherCondition.description,
+      icon: weatherCondition.icon,
+      air: {
+        feels_like: Math.round(apiData.main.feels_like),
+        humidity: apiData.main.humidity,
+        wind_speed: Math.round(apiData.wind.speed * 3.6),
+        rain_probability: forecastData?.list?.[0]?.pop ? 
+                         Math.round(forecastData.list[0].pop * 100) : 0
+      },
+      hourlyForecast: this.transformHourlyForecast(forecastData),
+      weeklyForecast: this.transformWeeklyForecast(forecastData)
+    };
   },
 
-  async updateWeatherPreference(cityName, preferences) {
-    await this.delay(300); // Simular guardado en API
-    console.log("📍 useMutation DEMO - Guardando preferencias:", {
-      cityName,
-      preferences
+  // MAPEAR CONDICIONES
+  mapWeatherCondition(apiCondition) {
+    const conditionMap = {
+      'Clear': { description: 'Despejado', icon: 'sunny' },
+      'Clouds': { description: 'Nublado', icon: 'cloudy' },
+      'Rain': { description: 'Lluvioso', icon: 'rain' },
+      'Drizzle': { description: 'Llovizna', icon: 'rain' },
+      'Thunderstorm': { description: 'Tormenta', icon: 'storm' },
+      'Snow': { description: 'Nevando', icon: 'snow' },
+      'Mist': { description: 'Neblina', icon: 'cloudy' },
+      'Fog': { description: 'Niebla', icon: 'cloudy' },
+    };
+    
+    return conditionMap[apiCondition] || { description: 'Despejado', icon: 'sunny' };
+  },
+
+  // TRANSFORMAR PRONÓSTICO POR HORA
+  transformHourlyForecast(forecastData) {
+    if (!forecastData?.list) return [];
+    
+    return forecastData.list.slice(0, 8).map(item => {
+      const condition = this.mapWeatherCondition(item.weather[0].main);
+      
+      return {
+        hour: new Date(item.dt * 1000).getHours() + ':00',
+        temperature: Math.round(item.main.temp),
+        icon: condition.icon
+      };
     });
+  },
 
-    // Simular respuesta exitosa de API
+  // TRANSFORMAR PRONÓSTICO SEMANAL
+  transformWeeklyForecast(forecastData) {
+    if (!forecastData?.list) return [];
+    
+    const dailyForecasts = [];
+    const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    
+    for (let i = 0; i < 7; i++) {
+      const dayData = forecastData.list[i * 8];
+      if (!dayData) break;
+      
+      const condition = this.mapWeatherCondition(dayData.weather[0].main);
+      const date = new Date(dayData.dt * 1000);
+      
+      dailyForecasts.push({
+        day: days[date.getDay()],
+        max: Math.round(dayData.main.temp_max),
+        min: Math.round(dayData.main.temp_min),
+        icon: condition.icon
+      });
+    }
+    
+    return dailyForecasts;
+  },
+
+  // OBTENER PROVINCIA
+  getProvinceFromCity(cityName) {
+    const cityProvinceMap = {
+      'Resistencia': 'Chaco',
+      'Buenos Aires': 'Buenos Aires', 
+      'Córdoba': 'Córdoba',
+      'Mendoza': 'Mendoza',
+      'Ushuaia': 'Tierra del Fuego',
+      'Rosario': 'Santa Fe',
+      'La Plata': 'Buenos Aires',
+      'Mar del Plata': 'Buenos Aires',
+      'Salta': 'Salta',
+      'Santa Fe': 'Santa Fe',
+      'San Juan': 'San Juan',
+      'San Luis': 'San Luis',
+      'Neuquén': 'Neuquén',
+      'Formosa': 'Formosa',
+      'Corrientes': 'Corrientes',
+      'Posadas': 'Misiones',
+      'Tucumán': 'Tucumán',
+      'Bahía Blanca': 'Buenos Aires',
+      'Paraná': 'Entre Ríos',
+      'Santiago del Estero': 'Santiago del Estero',
+      'San Miguel de Tucumán': 'Tucumán',
+      'Viedma': 'Río Negro',
+      'Rawson': 'Chubut',
+      'Río Gallegos': 'Santa Cruz',
+      'Reconquista': 'Santa Fe',
+      'Río Cuarto': 'Córdoba',
+      'Comodoro Rivadavia': 'Chubut',
+      'San Salvador de Jujuy': 'Jujuy',
+      'San Rafael': 'Mendoza',
+      'San Nicolás': 'Buenos Aires'
+    };
+    
+    return cityProvinceMap[cityName] || cityName;
+  },
+
+  // ACTUALIZAR PREFERENCIAS
+  async updateWeatherPreference(cityName, preferences) {
+    await this.delay(300);
+    
     return {
       success: true,
       message: "Preferencias guardadas correctamente",

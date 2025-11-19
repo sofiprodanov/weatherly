@@ -1,7 +1,17 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { weatherService } from '../services/weatherService';
 
-// Hook para obtener datos del clima (useQuery - lectura)
+// Hook para buscar ciudades
+export const useSearchCities = (searchQuery) => {
+  return useQuery({
+    queryKey: ['search-cities', searchQuery],
+    queryFn: () => weatherService.searchCities(searchQuery),
+    enabled: !!searchQuery && searchQuery.length >= 2,
+    staleTime: 30 * 60 * 1000,
+  });
+};
+
+// Hook para obtener datos del clima
 export const useWeatherData = (cityName) => {
   return useQuery({
     queryKey: ['weather', cityName],
@@ -12,16 +22,16 @@ export const useWeatherData = (cityName) => {
   });
 };
 
-// Hook para obtener lista de ciudades (useQuery - lectura)
+// Hook para ciudades populares
 export const useCities = () => {
   return useQuery({
     queryKey: ['cities'],
     queryFn: () => weatherService.getCities(),
-    staleTime: 10 * 60 * 1000,
+    staleTime: 30 * 60 * 1000,
   });
 };
 
-// Hook para actualizar preferencias 
+// Hook para guardar preferencias (favoritos)
 export const useUpdateWeatherPreference = () => {
   return useMutation({
     mutationFn: ({ cityName, preferences }) =>
