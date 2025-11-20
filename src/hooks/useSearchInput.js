@@ -4,6 +4,7 @@ import { useSearchCities, useCities } from './useWeather';
 export const useSearchInput = (onCitySelect) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false); // ✅ NUEVO
   const inputRef = useRef(null);
 
   const { data: searchResults = [], isLoading: searchLoading } = useSearchCities(searchTerm);
@@ -12,11 +13,10 @@ export const useSearchInput = (onCitySelect) => {
   const handleCitySelect = (city) => {
     setSearchTerm('');
     setShowSuggestions(false);
+    setHasInteracted(false);
     
-    // Ejecutar el callback para cambiar la ciudad
     onCitySelect(city);
     
-    // Mantener foco en el input después de un pequeño delay
     setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.focus();
@@ -27,6 +27,7 @@ export const useSearchInput = (onCitySelect) => {
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
     setShowSuggestions(true);
+    setHasInteracted(true);
   };
 
   const handleInputFocus = () => {
@@ -34,7 +35,6 @@ export const useSearchInput = (onCitySelect) => {
   };
 
   const handleInputBlur = () => {
-    // Pequeño delay para permitir click en sugerencias
     setTimeout(() => {
       setShowSuggestions(false);
     }, 200);
@@ -43,9 +43,29 @@ export const useSearchInput = (onCitySelect) => {
   const getCitiesToShow = () => {
     if (searchTerm.length > 0) {
       return searchResults;
-    } else {
+    } else if (hasInteracted) {
       return popularCities;
+    } else {
+      return [];
     }
+  };
+
+  const getSuggestionMessage = () => {
+    if (!hasInteracted && searchTerm.length === 0) {
+      return null; //
+    }
+    
+    if (searchTerm.length > 0) {
+      if (searchTerm.length < 2) {
+        return "Escribe al menos 2 caracteres";
+      } else if (searchResults.length === 0) {
+        return "No se encontraron ciudades";
+      }
+    } else if (hasInteracted && popularCities.length === 0) {
+      return "No hay ciudades populares disponibles";
+    }
+    
+    return null;
   };
 
   return {
@@ -54,6 +74,7 @@ export const useSearchInput = (onCitySelect) => {
     inputRef,
     isLoading: searchLoading,
     citiesToShow: getCitiesToShow(),
+    suggestionMessage: getSuggestionMessage(),
     handleCitySelect,
     handleInputChange,
     handleInputFocus,

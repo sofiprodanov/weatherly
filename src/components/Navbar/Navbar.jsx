@@ -13,6 +13,7 @@ const Navbar = () => {
     inputRef,
     isLoading: searchLoading,
     citiesToShow,
+    suggestionMessage,
     handleCitySelect,
     handleInputChange,
     handleInputFocus,
@@ -65,16 +66,12 @@ const Navbar = () => {
                   {city}
                 </div>
               ))
-            ) : searchTerm.length > 0 ? (
+            ) : suggestionMessage ? (
               <div className={styles.noResults}>
-                {searchTerm.length < 2
-                  ? "Escribe al menos 2 caracteres"
-                  : "No se encontraron ciudades"
-                }
+                {suggestionMessage}
               </div>
-            ) : (
-              <div className={styles.noResults}>Escribe para buscar ciudades</div>
-            )}
+            ) : null
+            }
           </div>
         )}
       </div>
