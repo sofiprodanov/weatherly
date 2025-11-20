@@ -1,5 +1,5 @@
 import styles from "./HourlyForecast.module.css";
-import { WiDaySunny, WiCloudy, WiRain, WiNightClear, WiNightAltCloudy, WiSunset, WiSunrise } from "react-icons/wi";
+import { WiDaySunny, WiCloudy, WiRain, WiNightClear, WiNightAltCloudy, WiSunset, WiSunrise, WiSnow, WiStrongWind, WiThunderstorm } from "react-icons/wi";
 import { useWeather } from "../../context/WeatherContext";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import ErrorMessage from "../UI/ErrorMessage";
@@ -25,9 +25,20 @@ const HourlyForecast = () => {
 
     // Íconos según franja horaria
     if (isNight) {
-      if (icon === "cloudy") return <WiNightAltCloudy size={40} color="#94a3b8" />;
-      if (icon === "rain") return <WiRain size={40} color="#3b82f6" />;
-      return <WiNightClear size={40} color="#facc15" />;
+      switch (icon) {
+        case "cloudy":
+          return <WiNightAltCloudy size={40} color="#94a3b8" />;
+        case "rain":
+          return <WiRain size={40} color="#3b82f6" />;
+        case "storm":
+          return <WiThunderstorm size={40} color="#7c3aed" />;
+        case "snow":
+          return <WiSnow size={40} color="#e0f2fe" />; 
+        case "windy":
+          return <WiStrongWind size={40} color="#93c5fd" />;
+        default:
+          return <WiNightClear size={40} color="#facc15" />;
+      }
     }
 
     if (isSunrise) {
@@ -44,12 +55,20 @@ const HourlyForecast = () => {
           return <WiCloudy size={40} color="#38bdf8" />;
         case "rain":
           return <WiRain size={40} color="#38bdf8" />;
+        case "storm":
+          return <WiThunderstorm size={40} color="#7c3aed" />;
+        case "snow":
+          return <WiSnow size={40} color="#e0f2fe" />;
+        case "windy":
+          return <WiStrongWind size={40} color="#93c5fd" />;
         default:
           return <WiDaySunny size={40} color="#facc15" />;
       }
     }
-  };
 
+    // Fallback por si acaso
+    return <WiDaySunny size={40} color="#facc15" />;
+  };
   return (
     <section className={styles.hourlyForecast}>
       <h3 className={styles.title}>Pronóstico por hora</h3>

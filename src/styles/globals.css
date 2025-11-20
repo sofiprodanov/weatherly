@@ -44,7 +44,7 @@ html {
   background: #64748b;
 }
 
-/* Mejoras de accesibilidad para móviles */
+/* Mejoras de accesibilidad para celulares */
 @media (max-width: 768px) {
   body {
     -webkit-tap-highlight-color: transparent;

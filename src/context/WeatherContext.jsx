@@ -23,14 +23,11 @@ export const WeatherProvider = ({ children }) => {
     isFetching
   } = useWeatherData(selectedCityName);
 
-  // React Query para obtener lista de ciudades
-  const { data: cities = [] } = useCities();
-
   const changeCity = (cityName) => {
     setSelectedCityName(cityName);
   };
 
-  // Función para toggle favoritos
+  // Funcion para favoritos
   const toggleFavorite = (city) => {
     setFavorites(prevFavorites => {
       const isAlreadyFavorite = prevFavorites.find(fav => fav.city === city.city);
@@ -59,7 +56,6 @@ export const WeatherProvider = ({ children }) => {
     <WeatherContext.Provider value={{
       selectedCity,
       changeCity,
-      cities,
       favorites,
       toggleFavorite,
       isFavorite,

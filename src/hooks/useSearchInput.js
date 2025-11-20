@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useSearchCities } from './useWeather';
+import { useSearchCities } from '../hooks/useWeather';
 import { useLocation } from 'react-router';
 
 export const useSearchInput = (onCitySelect, navigate) => {
