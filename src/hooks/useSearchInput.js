@@ -1,14 +1,15 @@
 import { useState, useRef } from 'react';
 import { useSearchCities } from './useWeather';
+import { useLocation } from 'react-router';
 
-export const useSearchInput = (onCitySelect) => {
+export const useSearchInput = (onCitySelect, navigate) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef(null);
+  const location = useLocation();
 
   const { data: searchResults = [], isLoading: searchLoading } = useSearchCities(searchTerm);
 
-  // Lista fija de ciudades populares
   const popularCities = [
     "Buenos Aires", "Resistencia", "Córdoba", "Mendoza", "Rosario",
     "La Plata", "Mar del Plata", "Salta", "Santa Fe", "San Juan",
@@ -21,6 +22,10 @@ export const useSearchInput = (onCitySelect) => {
     setShowSuggestions(false);
     
     onCitySelect(city);
+    
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
     
     setTimeout(() => {
       if (inputRef.current) {

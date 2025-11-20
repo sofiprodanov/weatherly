@@ -3,9 +3,11 @@ import styles from "./Navbar.module.css";
 import { FiSearch } from "react-icons/fi";
 import { useWeather } from "../../context/WeatherContext";
 import { useSearchInput } from "../../hooks/useSearchInput";
+import { useNavigate } from "react-router";
 
 const Navbar = () => {
   const { changeCity, isLoading: weatherLoading } = useWeather();
+  const navigate = useNavigate();
   
   const {
     searchTerm,
@@ -19,7 +21,7 @@ const Navbar = () => {
     handleInputFocus,
     handleInputBlur,
     setShowSuggestions
-  } = useSearchInput(changeCity);
+  } = useSearchInput(changeCity, navigate);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -70,8 +72,7 @@ const Navbar = () => {
               <div className={styles.noResults}>
                 {suggestionMessage}
               </div>
-            ) : null
-            }
+            ) : null}
           </div>
         )}
       </div>
