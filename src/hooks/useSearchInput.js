@@ -1,19 +1,24 @@
 import { useState, useRef } from 'react';
-import { useSearchCities, useCities } from './useWeather';
+import { useSearchCities } from './useWeather';
 
 export const useSearchInput = (onCitySelect) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false); // ✅ NUEVO
   const inputRef = useRef(null);
 
   const { data: searchResults = [], isLoading: searchLoading } = useSearchCities(searchTerm);
-  const { data: popularCities = [] } = useCities();
+
+  // Lista fija de ciudades populares
+  const popularCities = [
+    "Buenos Aires", "Resistencia", "Córdoba", "Mendoza", "Rosario",
+    "La Plata", "Mar del Plata", "Salta", "Santa Fe", "San Juan",
+    "San Luis", "Neuquén", "Formosa", "Corrientes", "Posadas",
+    "Tucumán", "Bahía Blanca", "Paraná", "Santiago del Estero", "Ushuaia"
+  ];
 
   const handleCitySelect = (city) => {
     setSearchTerm('');
     setShowSuggestions(false);
-    setHasInteracted(false);
     
     onCitySelect(city);
     
@@ -27,7 +32,6 @@ export const useSearchInput = (onCitySelect) => {
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
     setShowSuggestions(true);
-    setHasInteracted(true);
   };
 
   const handleInputFocus = () => {
@@ -43,28 +47,19 @@ export const useSearchInput = (onCitySelect) => {
   const getCitiesToShow = () => {
     if (searchTerm.length > 0) {
       return searchResults;
-    } else if (hasInteracted) {
-      return popularCities;
     } else {
-      return [];
+      return popularCities;
     }
   };
 
   const getSuggestionMessage = () => {
-    if (!hasInteracted && searchTerm.length === 0) {
-      return null; //
-    }
-    
     if (searchTerm.length > 0) {
       if (searchTerm.length < 2) {
         return "Escribe al menos 2 caracteres";
       } else if (searchResults.length === 0) {
         return "No se encontraron ciudades";
       }
-    } else if (hasInteracted && popularCities.length === 0) {
-      return "No hay ciudades populares disponibles";
     }
-    
     return null;
   };
 
