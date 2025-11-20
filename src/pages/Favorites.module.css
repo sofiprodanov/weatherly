@@ -1,0 +1,134 @@
+.favoritesPage {
+  padding: 1rem;
+  height: 100%;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.emptyState h3 {
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+}
+
+.favoritesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.favoriteCard {
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  border-radius: 16px;
+  padding: 1.5rem;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.favoriteCard:hover {
+  transform: translateY(-5px);
+  border-color: #38bdf8;
+  box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.cityName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin: 0;
+  flex: 1;
+}
+
+.favoriteBtn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #eab308;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.favoriteBtn:hover {
+  transform: scale(1.1);
+}
+
+.weatherInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.temperature {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.condition {
+  font-size: 1rem;
+  color: #94a3b8;
+}
+
+.airConditions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.airItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .favoritesGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .favoriteCard {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+}

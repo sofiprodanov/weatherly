@@ -1,6 +1,7 @@
 import Sidebar from "../Sidebar/Sidebar";
 import Navbar from "../Navbar/Navbar";
 import styles from "./Layout.module.css";
+import { Outlet } from 'react-router';
 
 /**
  * Estructura principal de la web.
@@ -8,7 +9,7 @@ import styles from "./Layout.module.css";
  * Muestra el contenido dinámico dentro de {children}.
  */
 
-const Layout = ({ children }) => {
+const Layout = () => {
   return (
     <div className={styles.layout}>
       <aside className={styles.sidebarContainer}>
@@ -24,7 +25,9 @@ const Layout = ({ children }) => {
             <span className={styles.logoText}>Weatherly</span>
           </div>
         </div>
-        <section className={styles.content}>{children}</section>
+        <section className={styles.content}>
+          <Outlet />
+        </section>
       </main>
     </div>
   );

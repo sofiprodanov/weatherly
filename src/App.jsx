@@ -1,8 +1,11 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Routes, Route } from 'react-router';
 import Layout from "./components/Layout/Layout";
 import Home from "./pages/Home";
+import Favorites from "./pages/Favorites";
 import { WeatherProvider } from "./context/WeatherContext";
 import "./styles/globals.css";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 
 /**
  * - Renderiza el Layout y dentro de él la página principal (Home).
@@ -14,9 +17,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <WeatherProvider>
-        <Layout>
-          <Home />
-        </Layout>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="favoritos" element={<Favorites />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </WeatherProvider>
     </QueryClientProvider>
   );
