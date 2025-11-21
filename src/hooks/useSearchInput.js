@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSearchCities } from '../hooks/useWeather';
 import { useLocation } from 'react-router';
 
@@ -17,17 +17,33 @@ export const useSearchInput = (onCitySelect, navigate) => {
     "Tucumán", "Bahía Blanca", "Paraná", "Santiago del Estero", "Ushuaia"
   ];
 
+  const blurTimeoutRef = useRef(null);
+  const focusTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (blurTimeoutRef.current) {
+        clearTimeout(blurTimeoutRef.current);
+      }
+      if (focusTimeoutRef.current) {
+        clearTimeout(focusTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const handleCitySelect = (city) => {
     setSearchTerm('');
     setShowSuggestions(false);
     
-    onCitySelect(city);
+    if (typeof onCitySelect === 'function') {
+      onCitySelect(city);
+    }
     
-    if (location.pathname !== '/') {
+    if (location.pathname !== '/' && typeof navigate === 'function') {
       navigate('/');
     }
     
-    setTimeout(() => {
+    focusTimeoutRef.current = setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.focus();
       }
@@ -35,23 +51,31 @@ export const useSearchInput = (onCitySelect, navigate) => {
   };
 
   const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
+    const value = e.target.value;
+    setSearchTerm(value);
     setShowSuggestions(true);
   };
 
   const handleInputFocus = () => {
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current);
+    }
     setShowSuggestions(true);
   };
 
   const handleInputBlur = () => {
-    setTimeout(() => {
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current);
+    }
+    
+    blurTimeoutRef.current = setTimeout(() => {
       setShowSuggestions(false);
     }, 200);
   };
 
   const getCitiesToShow = () => {
     if (searchTerm.length > 0) {
-      return searchResults;
+      return Array.isArray(searchResults) ? searchResults : [];
     } else {
       return popularCities;
     }
@@ -61,7 +85,7 @@ export const useSearchInput = (onCitySelect, navigate) => {
     if (searchTerm.length > 0) {
       if (searchTerm.length < 2) {
         return "Escribe al menos 2 caracteres";
-      } else if (searchResults.length === 0) {
+      } else if (searchResults.length === 0 && !searchLoading) {
         return "No se encontraron ciudades";
       }
     }

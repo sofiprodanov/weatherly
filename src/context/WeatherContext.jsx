@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useWeatherData, useCities } from "../hooks/useWeather";
+import { useWeatherData } from "../hooks/useWeather";
 
 const WeatherContext = createContext();
 

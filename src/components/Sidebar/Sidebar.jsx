@@ -1,9 +1,9 @@
 import styles from "./Sidebar.module.css";
-import { FaHome, FaMapMarkedAlt, FaCog, FaRegStar } from "react-icons/fa";
+import { FaHome, FaMapMarkedAlt, FaRegStar } from "react-icons/fa";
 import { Link, useLocation } from "react-router";
+import ThemeSwitch from "../UI/ThemeSwitch"; // ← Esta línea debe ser así
 
 const Sidebar = () => {
-
   const location = useLocation();
 
   return (
@@ -37,7 +37,7 @@ const Sidebar = () => {
       </ul>
 
       <div className={styles.settings}>
-        <FaCog className={styles.settingsIcon} />
+        <ThemeSwitch /> {/* ← Así se usa el componente */}
       </div>
     </nav>
   );

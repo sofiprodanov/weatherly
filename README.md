@@ -1,31 +1,38 @@
 # Weatherly 🌤️
 
-Weatherly es una aplicación web de clima interactiva construida con **React**, pensada como un dashboard moderno y visual para consultar el clima por ciudad. El proyecto integra **diseño responsivo** y **efectos 3D en tarjetas**.
+Weatherly es una aplicación web de clima moderna y completamente funcional construida con **React**. Ofrece una experiencia de usuario **intuitiva** para consultar condiciones climáticas actuales, pronósticos por hora y semanales, con un diseño dashboard elegante y **responsivo**. La aplicación **integra APIs** de clima en tiempo real y permite gestionar **ciudades favoritas**.
 
 ---
 
 ## Tabla de Contenidos
 
-1. [Características](#características)
-2. [Demo](#demo)
-3. [Tecnologías](#tecnologías)
-4. [Estructura del Proyecto](#estructura-del-proyecto)
-5. [Instalación](#instalación)
-6. [Uso](#uso)
-7. [Licencia](#licencia)
+- [Weatherly 🌤️](#weatherly-️)
+  - [Tabla de Contenidos](#tabla-de-contenidos)
+  - [Características](#características)
+  - [Demo](#demo)
+  - [Tecnologías](#tecnologías)
+  - [Estructura del Proyecto](#estructura-del-proyecto)
+  - [Instalación](#instalación)
+  - [Uso](#uso)
+  - [Licencia](#licencia)
 
 ---
 
 ## Características
 
-* Dashboard principal con resumen del clima por ciudad.
-* Búsqueda por localidad.
-* Sidebar con categorías y navegación clara.
-* Tarjetas interactivas.
-* Iconos dinámicos de clima según condiciones (sol, lluvia, nieve, nublado, etc.).
-* Horarios y pronósticos por hora.
-* Diseño responsivo, moderno y minimalista.
-
+* Dashboard principal con información climática completa en tiempo real
+* Búsqueda inteligente de ciudades con autocompletado
+* Gestión de ciudades favoritas para acceso rápido
+* Sidebar intuitivo con navegación entre secciones principales
+* Pronóstico por horas con gráficos interactivos
+* Pronóstico semanal detallado
+* Condiciones del aire (humedad, viento, etc)
+* Tarjetas interactivas con efectos 3D y hover
+* Iconos climáticos dinámicos que se actualizan según las condiciones
+* Diseño completamente responsivo para todos los dispositivos
+* Tema oscuro/claro 
+* Persistencia de datos en localStorage
+  
 ---
 
 ## Demo
@@ -36,13 +43,15 @@ Weatherly es una aplicación web de clima interactiva construida con **React**, 
 
 ## Tecnologías
 
-* **Frontend:** React + Vite
-* **Estilos:** CSS puro
-* **Gestión de estado:** React hooks (`useState`, `useEffect`)
-* **Routing:** React DOM
-* **Data Mock:** Archivos `citiemock` y `citiesMock` para pruebas sin API externa
-* **Deploy:** Vercel
-
+* Frontend: React 18 + Vite
+* Estilos: CSS Modules + CSS Variables
+* Gestión de Estado: React Hooks (useState, useEffect, useContext) + Custom Hooks
+* Enrutamiento: React Router DOM
+* Iconos: SVG dinámicos personalizados
+* APIs Externas: OpenWeatherMap API
+* Deployment: Vercel
+* Control de Versiones: Git
+  
 ---
 
 ## Estructura del Proyecto
@@ -68,7 +77,12 @@ weatherly/
 │   │   ├── Sidebar/                        # Barra lateral
 │   │   │   ├── Sidebar.jsx
 │   │   │   └── Sidebar.module.css
-│   │   ├── WeatherMain/                    # Componente principal del clima e iconos SVG.
+│   │   ├── UI/                             # Componentes de interfaz de usuario
+│   │   │   ├── ErrorMessage.jsx
+│   │   │   ├── ErrorMessage.module.jsx
+│   │   │   ├── LoadingSpinner.jsx
+│   │   │   └── LoadingSpinner.module.module.css
+│   │   ├── WeatherMain/                    # Componente principal del clima e iconos SVG
 │   │   │   ├── Icons/
 │   │   │   │   ├── index.js
 │   │   │   │   └── ...
@@ -79,17 +93,28 @@ weatherly/
 │   │       └── WeeklyForecast.module.css
 │   ├── context/                            # Contexto para estado del clima
 │   │   └── WeatherContext.jsx              
-│   ├── data/                               # Datos mock de ciudades
-│   │   └── citiesMock.js
+│   ├── hooks/                              # Custom hooks de React
+│   │   ├── useSearchInput.js                        
+│   │   └── useWeather.js   
 │   ├── pages/                              # Página principal de la aplicación
+│   │   ├── Favorites.jsx
+│   │   ├── Favorites.module.css   
 │   │   ├── Home.jsx                        
 │   │   └── Home.module.css                 
+│   ├── services/                           # Servicios para APIs externas
+│   │   └── weatherService.js
 │   ├── styles/                             # Estilos CSS globales
 │   │   └── globals.css                     
 │   ├── App.jsx                             # Componente raíz de la aplicación
-│   └── main.jsx                            
+│   └── main.jsx                            # Punto de entrada de la aplicación
+├── .gitignore                              # Archivos ignorados por Git
+├── eslint.config.js                        # Configuración de ESLint
+├── index.html                              # HTML principal
+├── LICENSE                                 # Licencia del proyecto
+├── package-lock.json                       # Lock file de dependencias
 ├── package.json                            # Configuración del proyecto y dependencias
-└── README.md                               
+├── README.md                               # Documentación del proyecto
+└── vite.config.js                          # Configuración de Vite                           
 ```
 
 ## Instalación
@@ -131,10 +156,32 @@ npm run preview
 
 ## Uso
 
-* Abrir la aplicación.
-* Usar el **sidebar** para navegar entre categorías o secciones.
-* Buscar por ciudad usando el **navbar**.
-* Consultar pronósticos y ver iconos de clima dinámicos según las condiciones.
+**Dashboard Principal**
+* Visualiza temperatura actual, condiciones y sensación térmica
+* Consulta pronóstico por horas deslizante
+* Revisa pronóstico semanal extendido
+* Monitorea condiciones del aire en tiempo real
+
+**Gestión de Favoritos**
+* Agrega ciudades a favoritos desde los resultados de búsqueda
+* Accede rápidamente a ciudades guardadas
+* Elimina favoritos con un click
+
+**Búsqueda Avanzada**
+* Búsqueda en tiempo real con sugerencias
+* Resultados con información básica del clima
+  
+**Características Interactivas**
+* Tarjetas con efectos hover 3D
+* Iconos que cambian según condiciones climáticas
+* Diseño adaptativo para móviles y desktop
+* Actualizaciones automáticas de datos
+
+**Tips de Uso**
+* Usa la geolocalización para obtener clima de tu ubicación actual
+* Guarda tus ciudades más consultadas en favoritos
+* Explora el pronóstico por horas para planificar tu día
+* Consulta el índice UV en condiciones del aire para protección solar
 
 ## Licencia
 

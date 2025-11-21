@@ -3,16 +3,16 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: #141c2e;
+  background-color: var(--bg-secondary);
   border-radius: 16px; 
-  padding: 1rem 0rem;
+  padding: 1rem 0.5rem;
   height: 100%;
   width: 100%;
   box-sizing: border-box;
 }
 
 .logo {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,7 +38,7 @@
 }
 
 .menuItem {
-  color: #8ba1c5;
+  color: var(--text-muted);
   transition: all 0.3s ease;
   cursor: pointer;
   display: flex;
@@ -50,12 +50,12 @@
 }
 
 .menuItem:hover {
-  color: #ffffff;
+  color: var(--text-primary);
   background-color: rgba(255, 255, 255, 0.1);
 }
 
 .menuItem.active {
-  color: #f7ececea;
+  color: var(--text-primary);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 .menuItem a {
@@ -76,7 +76,7 @@
 }
 
 .settings {
-  color: #8ba1c5;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: auto;
@@ -89,7 +89,7 @@
 }
 
 .settings:hover {
-  color: #ffffff;
+  color: var(--text-primary);
   background-color: rgba(255, 255, 255, 0.1);
 }
 

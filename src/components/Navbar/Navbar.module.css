@@ -11,7 +11,7 @@
 .searchContainer {
   display: flex;
   align-items: center;
-  background-color: #1e293b;
+  background-color: var(--bg-card);
   border-radius: 8px;
   padding: 0.5rem 1rem;
   width: 100%;
@@ -25,7 +25,7 @@
 }
 
 .icon {
-  color: #94a3b8;
+  color: var(--text-muted);
   margin-right: 0.5rem;
   font-size: 1.2rem;
 }
@@ -34,14 +34,14 @@
   background: none;
   border: none;
   outline: none;
-  color: #e2e8f0;
+  color: var(--text-primary);
   width: 100%;
   font-size: 1rem;
   font-family: "Poppins", sans-serif;
 }
 
 .input::placeholder {
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .suggestions {
@@ -49,22 +49,22 @@
   top: 100%;
   left: 0;
   right: 0;
-  background-color: #1e293b;
+  background-color: var(--bg-card);
   border-radius: 8px;
   margin-top: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px var(--shadow);
   z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
-  border: 1px solid #334155;
+  border: 1px solid var(--border);
 }
 
 .suggestionItem {
   padding: 0.75rem 1rem;
-  color: #e2e8f0;
+  color: var(--text-primary);
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #334155;
+  border-bottom: 1px solid var(--border);
 }
 
 .suggestionItem:last-child {
@@ -78,7 +78,7 @@
 
 .noResults {
   padding: 0.75rem 1rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-style: italic;
 }
 

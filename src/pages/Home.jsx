@@ -26,18 +26,35 @@ const Home = () => {
     return (
       <div className={styles.homeContent}>
         <div className={styles.errorContainer}>
-          <ErrorMessage message={error.message} />
+          <ErrorMessage
+            message={error.message || "Error al cargar los datos del clima"}
+          />
         </div>
       </div>
     );
   }
 
-  // Estado vacío (no hay ciudad seleccionada)
+  // Estado vacío (no hay ciudad seleccionada o datos)
   if (!selectedCity) {
     return (
       <div className={styles.homeContent}>
         <div className={styles.errorContainer}>
-          <ErrorMessage message="No se encontraron datos para la ciudad seleccionada" />
+          <ErrorMessage
+            message="No se encontraron datos para la ciudad seleccionada. Intenta con otra ciudad."
+            showRetry={false}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (!selectedCity.hourlyForecast || !selectedCity.weeklyForecast) {
+    return (
+      <div className={styles.homeContent}>
+        <div className={styles.errorContainer}>
+          <ErrorMessage
+            message="Datos incompletos. Intenta recargar la página."
+          />
         </div>
       </div>
     );
@@ -52,14 +69,14 @@ const Home = () => {
           <WeatherMain />
         </div>
 
-        {/* Hourly Forecast */}
+        {/* Sección media con pronóstico por hora y condiciones del aire */}
         <div className={styles.middleSection}>
           <HourlyForecast />
           <AirConditions />
         </div>
       </div>
 
-      {/* Weekly Forecast */}
+      {/* Pronóstico semanal - sidebar derecho */}
       <div className={styles.rightColumn}>
         <WeeklyForecast />
       </div>

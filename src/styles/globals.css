@@ -1,14 +1,75 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Parkinsans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
 
+:root {
+  /* Colores modo oscuro (original) */
+  --dark-bg-primary: #0b1221;
+  --dark-bg-secondary: #141c2e;
+  --dark-bg-card: #1e293b;
+  --dark-bg-card-alt: #0f172a;
+  --dark-text-primary: #fff;
+  --dark-text-secondary: #cbd5e1;
+  --dark-text-muted: #94a3b8;
+  --dark-border: #1e2a44;
+  --dark-shadow: rgba(0, 0, 0, 0.3);
+  
+  /* Colores modo claro */
+  --light-bg-primary: #edf2fa;     
+  --light-bg-secondary: #d7e3fc;  
+  --light-bg-card: #ffffff;      
+  --light-bg-card-alt: #f8fafc;    
+  --light-text-primary: #1a237e;   
+  --light-text-secondary: #283593;
+  --light-text-muted: #3949ab;   
+  --light-border: #c1d3fe;        
+  --light-shadow: rgba(171, 196, 255, 0.25); 
+
+  /* Valores por defecto (modo oscuro) */
+  --bg-primary: var(--dark-bg-primary);
+  --bg-secondary: var(--dark-bg-secondary);
+  --bg-card: var(--dark-bg-card);
+  --bg-card-alt: var(--dark-bg-card-alt);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --text-muted: var(--dark-text-muted);
+  --border: var(--dark-border);
+  --shadow: var(--dark-shadow);
+}
+
+/* Aplicar variables según el tema */
+body.dark-theme {
+  --bg-primary: var(--dark-bg-primary);
+  --bg-secondary: var(--dark-bg-secondary);
+  --bg-card: var(--dark-bg-card);
+  --bg-card-alt: var(--dark-bg-card-alt);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --text-muted: var(--dark-text-muted);
+  --border: var(--dark-border);
+  --shadow: var(--dark-shadow);
+}
+
+body.light-theme {
+  --bg-primary: var(--light-bg-primary);      
+  --bg-secondary: var(--light-bg-secondary);  
+  --bg-card: var(--light-bg-card);           
+  --bg-card-alt: var(--light-bg-card-alt);   
+  --text-primary: var(--light-text-primary);
+  --text-secondary: var(--light-text-secondary);
+  --text-muted: var(--light-text-muted);
+  --border: var(--light-border);
+  --shadow: var(--light-shadow);
+}
+
 body {
   margin: 0;
   padding: 0;
-  background-color: #0b1221;
-  color: #fff;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Fredoka', 'Parkinsans', 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden; 
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 * {
@@ -31,17 +92,17 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: var(--bg-card);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: var(--text-muted);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: var(--text-secondary);
 }
 
 /* Mejoras de accesibilidad para celulares */
@@ -55,4 +116,93 @@ html {
   .suggestionItem {
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
   }
+}
+
+/* ===== MEJORAS ESPECÍFICAS PARA TEMA CLARO ===== */
+
+body.light-theme .favoriteCard {
+  background: linear-gradient(135deg, var(--bg-card) 0%, #f8fbff 100%);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+body.light-theme .favoriteCard:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f5ff 100%);
+  border-color: #abc4ff;
+  box-shadow: 0 6px 20px rgba(171, 196, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+body.light-theme .weatherHeader {
+  background: linear-gradient(135deg, #ccdbfd, #d7e3fc);
+}
+
+body.light-theme .favoriteBtn {
+  color: #3949ab;
+  transition: all 0.3s ease;
+}
+
+body.light-theme .favoriteBtn:hover {
+  color: #9fbcff;
+  transform: scale(1.1);
+}
+
+body.light-theme::-webkit-scrollbar-track {
+  background: var(--light-bg-secondary);
+  border-radius: 4px;
+}
+
+body.light-theme::-webkit-scrollbar-thumb {
+  background: #9fbcff;
+  border-radius: 4px;
+}
+
+body.light-theme::-webkit-scrollbar-thumb:hover {
+  background: #93b5ff;
+}
+
+body.light-theme .emptyState {
+  color: var(--light-text-muted);
+  background: linear-gradient(135deg, #f8fbff, #edf2fa);
+  border-radius: 16px;
+}
+
+body.light-theme .emptyState h3 {
+  color: var(--light-text-secondary);
+}
+
+body.light-theme .temperature {
+  color: var(--light-text-primary);
+  font-weight: 700;
+}
+
+body.light-theme .condition {
+  color: var(--light-text-secondary);
+  font-weight: 500;
+}
+
+body.light-theme .airItem {
+  background: rgba(214, 227, 252, 0.5);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+body.light-theme .airItem span:first-child {
+  color: #3949ab;
+}
+
+body.light-theme nav {
+  background: linear-gradient(135deg, #d7e3fc, #ccdbfd);
+  border-bottom: 1px solid #c1d3fe;
+}
+
+body.light-theme .navButton {
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--light-text-primary);
+  border: 1px solid #c1d3fe;
+}
+
+body.light-theme .navButton:hover {
+  background: #abc4ff;
+  color: white;
 }

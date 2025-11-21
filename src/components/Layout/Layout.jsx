@@ -6,10 +6,10 @@ import { Outlet } from 'react-router';
 /**
  * Estructura principal de la web.
  * Contiene el Sidebar y el Navbar.
- * Muestra el contenido dinámico dentro de {children}.
  */
 
 const Layout = () => {
+ 
   return (
     <div className={styles.layout}>
       <aside className={styles.sidebarContainer}>

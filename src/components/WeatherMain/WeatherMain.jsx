@@ -2,23 +2,16 @@ import { useState } from "react";
 import styles from "./WeatherMain.module.css";
 import { SunnyIcon, CloudyIcon, RainyIcon, WindyIcon, SnowyIcon, StormIcon, HotThermometerIcon, ColdThermometerIcon } from "./Icons";
 import { useWeather } from "../../context/WeatherContext";
-import { useUpdateWeatherPreference } from "../../hooks/useWeather";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import ErrorMessage from "../UI/ErrorMessage";
 
 const WeatherMain = () => {
   const { selectedCity, isLoading, error, toggleFavorite, isFavorite } = useWeather();
-  const { mutate: updateFavorite, isPending } = useUpdateWeatherPreference();
 
   const handleToggleFavorite = () => {
-    const newFavoriteStatus = !isFavorite(selectedCity.city);
     
     toggleFavorite(selectedCity);
     
-    updateFavorite({
-      cityName: selectedCity.city,
-      preferences: { isFavorite: newFavoriteStatus }
-    });
   };
 
   // Estados de carga y error
@@ -60,7 +53,6 @@ const WeatherMain = () => {
             {weatherData.city}, {weatherData.province}
             <button
               onClick={handleToggleFavorite}
-              disabled={isPending}
               className={styles.favoriteBtn}
               title={isFavorite(weatherData.city) ? "Quitar de favoritos" : "Agregar a favoritos"}
             >
