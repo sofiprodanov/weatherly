@@ -98,7 +98,6 @@ weatherly/
 │   │   └── globals.css                     
 │   ├── App.jsx                             # Componente raíz de la aplicación
 │   └── main.jsx                            # Punto de entrada de la aplicación
-├── .env                                    # Variables de entorno
 ├── .gitignore                              # Archivos ignorados por Git
 ├── eslint.config.js                        # Configuración de ESLint
 ├── index.html                              # HTML principal
