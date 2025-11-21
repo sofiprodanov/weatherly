@@ -1,6 +1,6 @@
 # Weatherly 🌤️
 
-Weatherly es una aplicación web de clima interactiva construida con **React**, pensada como un dashboard moderno y visual para consultar el clima por ciudad. El proyecto integra **diseño responsivo** y **efectos 3D en tarjetas**.
+Weatherly es una aplicación web de clima moderna y completamente funcional construida con **React**. Ofrece una experiencia de usuario **intuitiva** para consultar condiciones climáticas actuales, pronósticos por hora y semanales, con un diseño dashboard elegante y **responsivo**. La aplicación **integra APIs** de clima en tiempo real y permite gestionar **ciudades favoritas**.
 
 ---
 
@@ -18,14 +18,18 @@ Weatherly es una aplicación web de clima interactiva construida con **React**, 
 
 ## Características
 
-* Dashboard principal con resumen del clima por ciudad.
-* Búsqueda por localidad.
-* Sidebar con categorías y navegación clara.
-* Tarjetas interactivas.
-* Iconos dinámicos de clima según condiciones (sol, lluvia, nieve, nublado, etc.).
-* Horarios y pronósticos por hora.
-* Diseño responsivo, moderno y minimalista.
-
+* Dashboard principal con información climática completa en tiempo real
+* Búsqueda inteligente de ciudades con autocompletado
+* Gestión de ciudades favoritas para acceso rápido
+* Sidebar intuitivo con navegación entre secciones principales
+* Pronóstico por horas con gráficos interactivos
+* Pronóstico semanal detallado
+* Condiciones del aire (humedad, viento, etc)
+* Tarjetas interactivas con efectos 3D y hover
+* Iconos climáticos dinámicos que se actualizan según las condiciones
+* Diseño completamente responsivo para todos los dispositivos
+* Persistencia de datos en localStorage
+  
 ---
 
 ## Demo
@@ -36,13 +40,15 @@ Weatherly es una aplicación web de clima interactiva construida con **React**, 
 
 ## Tecnologías
 
-* **Frontend:** React + Vite
-* **Estilos:** CSS puro
-* **Gestión de estado:** React hooks (`useState`, `useEffect`)
-* **Routing:** React DOM
-* **Data Mock:** Archivos `citiemock` y `citiesMock` para pruebas sin API externa
-* **Deploy:** Vercel
-
+* Frontend: React 18 + Vite
+* Estilos: CSS Modules + CSS Variables
+* Gestión de Estado: React Hooks (useState, useEffect, useContext) + Custom Hooks
+* Enrutamiento: React Router DOM
+* Iconos: SVG dinámicos personalizados
+* APIs Externas: OpenWeatherMap API
+* Deployment: Vercel
+* Control de Versiones: Git
+  
 ---
 
 ## Estructura del Proyecto
@@ -147,10 +153,26 @@ npm run preview
 
 ## Uso
 
-* Abrir la aplicación.
-* Usar el **sidebar** para navegar entre categorías o secciones.
-* Buscar por ciudad usando el **navbar**.
-* Consultar pronósticos y ver iconos de clima dinámicos según las condiciones.
+**Dashboard Principal**
+* Visualiza temperatura actual, condiciones y sensación térmica
+* Consulta pronóstico por horas deslizante
+* Revisa pronóstico semanal extendido
+* Monitorea condiciones del aire en tiempo real
+
+**Gestión de Favoritos**
+* Agrega ciudades a favoritos desde los resultados de búsqueda
+* Accede rápidamente a ciudades guardadas
+* Elimina favoritos con un click
+
+**Búsqueda Avanzada**
+* Búsqueda en tiempo real con sugerencias
+* Resultados con información básica del clima
+  
+**Características Interactivas**
+* Tarjetas con efectos hover 3D
+* Iconos que cambian según condiciones climáticas
+* Diseño adaptativo para móviles y desktop
+* Actualizaciones automáticas de datos
 
 ## Licencia
 
