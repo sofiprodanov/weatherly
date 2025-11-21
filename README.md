@@ -68,7 +68,12 @@ weatherly/
 │   │   ├── Sidebar/                        # Barra lateral
 │   │   │   ├── Sidebar.jsx
 │   │   │   └── Sidebar.module.css
-│   │   ├── WeatherMain/                    # Componente principal del clima e iconos SVG.
+│   │   ├── UI/                             # Componentes de interfaz de usuario
+│   │   │   ├── ErrorMessage.jsx
+│   │   │   ├── ErrorMessage.module.jsx
+│   │   │   ├── LoadingSpinner.jsx
+│   │   │   └── LoadingSpinner.module.module.css
+│   │   ├── WeatherMain/                    # Componente principal del clima e iconos SVG
 │   │   │   ├── Icons/
 │   │   │   │   ├── index.js
 │   │   │   │   └── ...
@@ -79,17 +84,29 @@ weatherly/
 │   │       └── WeeklyForecast.module.css
 │   ├── context/                            # Contexto para estado del clima
 │   │   └── WeatherContext.jsx              
-│   ├── data/                               # Datos mock de ciudades
-│   │   └── citiesMock.js
+│   ├── hooks/                              # Custom hooks de React
+│   │   ├── useSearchInput.js                        
+│   │   └── useWeather.js   
 │   ├── pages/                              # Página principal de la aplicación
+│   │   ├── Favorites.jsx
+│   │   ├── Favorites.module.css   
 │   │   ├── Home.jsx                        
 │   │   └── Home.module.css                 
+│   ├── services/                           # Servicios para APIs externas
+│   │   └── weatherService.js
 │   ├── styles/                             # Estilos CSS globales
 │   │   └── globals.css                     
 │   ├── App.jsx                             # Componente raíz de la aplicación
-│   └── main.jsx                            
+│   └── main.jsx                            # Punto de entrada de la aplicación
+├── .env                                    # Variables de entorno
+├── .gitignore                              # Archivos ignorados por Git
+├── eslint.config.js                        # Configuración de ESLint
+├── index.html                              # HTML principal
+├── LICENSE                                 # Licencia del proyecto
+├── package-lock.json                       # Lock file de dependencias
 ├── package.json                            # Configuración del proyecto y dependencias
-└── README.md                               
+├── README.md                               # Documentación del proyecto
+└── vite.config.js                          # Configuración de Vite                           
 ```
 
 ## Instalación
