@@ -1,41 +1,37 @@
 import styles from "./Favorites.module.css";
 import { useWeather } from "../context/WeatherContext";
+import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 import ErrorMessage from "../components/UI/ErrorMessage";
 
 const Favorites = () => {
+  const { user } = useAuth();
   const { favorites, isLoading, error, toggleFavorite, changeCity } = useWeather();
+
+  if (!user) {
+    return (
+      <div className={styles.notLoggedIn}>
+        <div className={styles.notLoggedInContent}>
+          <div className={styles.notLoggedInIcon}>🔒</div>
+          <h2 className={styles.notLoggedInTitle}>Acceso Restringido</h2>
+          <p className={styles.notLoggedInMessage}>
+            Para ver tus ciudades favoritas, necesitas iniciar sesión.
+          </p>
+          <Link to="/login" className={styles.notLoggedInButton}>
+            Iniciar Sesión
+          </Link>
+          <p className={styles.notLoggedInHint}>
+            ¿No tienes cuenta? El sistema de autenticación es simulado.
+            Solo haz click en "Iniciar Sesión Demo".
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message={error.message} />;
-
-  const handleCityClick = (city) => {
-    if (!city || !city.city) {
-      console.error('Ciudad inválida en favoritos:', city);
-      return;
-    }
-
-    try {
-      changeCity(city.city);
-    } catch (err) {
-      console.error('Error al cambiar ciudad:', err);
-    }
-  };
-
-  const handleFavoriteToggle = (city, e) => {
-    e.stopPropagation();
-
-    if (!city || !city.city) {
-      console.error('Intento de eliminar favorito inválido:', city);
-      return;
-    }
-
-    try {
-      toggleFavorite(city);
-    } catch (err) {
-      console.error('Error al alternar favorito:', err);
-    }
-  };
 
   const validFavorites = Array.isArray(favorites) ? favorites : [];
 
@@ -52,27 +48,25 @@ const Favorites = () => {
       ) : (
         <div className={styles.favoritesGrid}>
           {validFavorites.map((city, index) => {
-
-            if (!city || !city.city) {
-              console.warn('Ciudad inválida en favoritos, índice:', index);
-              return null;
-            }
+            if (!city || !city.city) return null;
 
             return (
               <div
                 key={`${city.city}-${index}`}
                 className={styles.favoriteCard}
-                onClick={() => handleCityClick(city)}
+                onClick={() => changeCity(city.city)}
               >
                 <div className={styles.cardHeader}>
                   <h3 className={styles.cityName}>
                     {city.city}, {city.province || 'Argentina'}
                   </h3>
                   <button
-                    onClick={(e) => handleFavoriteToggle(city, e)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(city);
+                    }}
                     className={styles.favoriteBtn}
                     title="Quitar de favoritos"
-                    aria-label={`Quitar ${city.city} de favoritos`}
                   >
                     ★
                   </button>

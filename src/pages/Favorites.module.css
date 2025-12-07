@@ -143,3 +143,93 @@
     font-size: 1.5rem;
   }
 }
+
+/* ===== ESTILOS PARA USUARIO NO LOGEADO ===== */
+
+.notLoggedIn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 2rem;
+}
+
+.notLoggedInContent {
+  text-align: center;
+  max-width: 500px;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  box-shadow: 0 8px 30px var(--shadow);
+  border: 2px solid var(--border);
+}
+
+.notLoggedInIcon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.notLoggedInTitle {
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.notLoggedInMessage {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.notLoggedInButton {
+  display: inline-block;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.notLoggedInButton:hover {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+}
+
+.notLoggedInHint {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .notLoggedIn {
+    padding: 1rem;
+    min-height: 60vh;
+  }
+  
+  .notLoggedInContent {
+    padding: 2rem 1.5rem;
+  }
+  
+  .notLoggedInIcon {
+    font-size: 3rem;
+  }
+  
+  .notLoggedInTitle {
+    font-size: 1.5rem;
+  }
+  
+  .notLoggedInMessage {
+    font-size: 1rem;
+  }
+}

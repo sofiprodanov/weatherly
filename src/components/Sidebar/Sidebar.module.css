@@ -100,6 +100,77 @@
   min-height: 25px;
 }
 
+/* ===== ESTILOS PARA AUTENTICACIÓN ===== */
+
+.bottomSection {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.authSection {
+  width: 100%;
+}
+
+.authButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.authButton:hover {
+  background: var(--bg-card-alt);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow);
+}
+
+.authButton.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #2563eb;
+}
+
+.authIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.authText {
+  font-weight: 500;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .authButton {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+  
+  .authIcon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .authText {
+    display: none;
+  }
+}
+
+
 /* ===== DISEÑO RESPONSIVO  ===== */
 
 /* Tablet */
