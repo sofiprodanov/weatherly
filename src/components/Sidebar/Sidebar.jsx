@@ -29,9 +29,6 @@ const Sidebar = () => {
         <li className={`${styles.menuItem} ${location.pathname === '/favoritos' ? styles.active : ''}`}>
           <Link to="/favoritos"><FaRegStar className={styles.menuIcon} /></Link>
         </li>
-        <li className={styles.menuItem}>
-          <FaMapMarkedAlt className={styles.menuIcon} />
-        </li>
       </ul>
 
       <div className={styles.bottomSection}>
